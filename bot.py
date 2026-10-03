@@ -10,9 +10,9 @@ from telegram.ext import Application, MessageHandler, ContextTypes, filters
 TOKEN = os.environ["BOT_TOKEN"]
 
 TRIGGERS = {
-    "камрад": "ТУТ_ТЕКСТ_ВІДПОВІДІ",
-    "собака": "ТУТ_ТЕКСТ_ВІДПОВІДІ",
-    "пес": "ТУТ_ТЕКСТ_ВІДПОВІДІ",
+    "Камрад": "Гав!",
+    "собака": "у?",
+    "пес": "Гав?",
 }
 
 
