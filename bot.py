@@ -10,9 +10,9 @@ from telegram.ext import Application, MessageHandler, ContextTypes, filters
 TOKEN = os.environ["BOT_TOKEN"]
 
 TRIGGERS = {
-    "Камрад": "Гав!",
+    "камрад": "гав!",
     "собака": "у?",
-    "пес": "Гав?",
+    "пес": "Уууу",
 }
 
 
@@ -33,14 +33,20 @@ async def message_handler(
 
     text = text.lower()
 
-for trigger, response in TRIGGERS.items():
-    pattern = rf"(?<![А-Яа-яЁёІіЇїЄєҐґA-Za-z0-9_]){re.escape(trigger)}(?![А-Яа-яЁёІіЇїЄєҐґA-Za-z0-9_])"
+    for trigger, response in TRIGGERS.items():
+        pattern = (
+            rf"(?<![А-Яа-яЁёІіЇїЄєҐґA-Za-z0-9_])"
+            rf"{re.escape(trigger)}"
+            rf"(?![А-Яа-яЁёІіЇїЄєҐґA-Za-z0-9_])"
+        )
 
-    if re.search(pattern, text, re.IGNORECASE):
-        await update.message.reply_text(response)
-        return
+        if re.search(pattern, text):
+            await update.message.reply_text(response)
+            return
+
 
 class HealthHandler(BaseHTTPRequestHandler):
+
     def do_GET(self):
         self.send_response(200)
         self.end_headers()
