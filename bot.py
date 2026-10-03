@@ -9,7 +9,8 @@ from telegram.ext import Application, MessageHandler, ContextTypes, filters
 
 TOKEN = os.environ["BOT_TOKEN"]
 
-ALLOWED_CHAT_ID = None
+if update.effective_chat.type not in ("group", "supergroup"):
+    return
 
 TRIGGERS = {
     "камрад": "гав!",
