@@ -9,13 +9,10 @@ from telegram.ext import Application, MessageHandler, ContextTypes, filters
 
 TOKEN = os.environ["BOT_TOKEN"]
 
-if update.effective_chat.type not in ("group", "supergroup"):
-    return
-
 TRIGGERS = {
-    "камрад": "гав!",
-    "собака": "ууууу",
-    "пес": "гав?",
+    "камрад": "ТУТ_ТЕКСТ_ВІДПОВІДІ",
+    "собака": "ТУТ_ТЕКСТ_ВІДПОВІДІ",
+    "пес": "ТУТ_ТЕКСТ_ВІДПОВІДІ",
 }
 
 
@@ -26,7 +23,7 @@ async def message_handler(
     if not update.message:
         return
 
-    if update.effective_chat.id != ALLOWED_CHAT_ID:
+    if update.effective_chat.type not in ("group", "supergroup"):
         return
 
     text = update.message.text
