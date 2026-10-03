@@ -33,13 +33,12 @@ async def message_handler(
 
     text = text.lower()
 
-    for trigger, response in TRIGGERS.items():
-        pattern = rf"(?<!\w){re.escape(trigger)}(?!\w)"
+for trigger, response in TRIGGERS.items():
+    pattern = rf"(?<![А-Яа-яЁёІіЇїЄєҐґA-Za-z0-9_]){re.escape(trigger)}(?![А-Яа-яЁёІіЇїЄєҐґA-Za-z0-9_])"
 
-        if re.search(pattern, text):
-            await update.message.reply_text(response)
-            return
-
+    if re.search(pattern, text, re.IGNORECASE):
+        await update.message.reply_text(response)
+        return
 
 class HealthHandler(BaseHTTPRequestHandler):
     def do_GET(self):
