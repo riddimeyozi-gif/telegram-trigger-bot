@@ -9,7 +9,7 @@ from telegram.ext import Application, MessageHandler, ContextTypes, filters
 
 TOKEN = os.environ["BOT_TOKEN"]
 
-ALLOWED_CHAT_ID = -1002830919044
+ALLOWED_CHAT_ID = None
 
 TRIGGERS = {
     "камрад": "гав!",
