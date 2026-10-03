@@ -1,30 +1,22 @@
-from telegram import Update
-from telegram.ext import Application, MessageHandler, ContextTypes, filters
 import os
 import re
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
+from telegram import Update
+from telegram.ext import Application, MessageHandler, ContextTypes, filters
 
-# ==========================================
-# НАЛАШТУВАННЯ
-# ==========================================
-
-import os
 
 TOKEN = os.environ["BOT_TOKEN"]
 
 ALLOWED_CHAT_ID = -1002830919044
 
-
 TRIGGERS = {
     "камрад": "гав!",
-    "собака": "уууу?",
+    "собака": "ууууу",
     "пес": "гав?",
 }
 
-
-# ==========================================
-# ОБРОБКА ПОВІДОМЛЕНЬ
-# ==========================================
 
 async def message_handler(
     update: Update,
@@ -49,11 +41,31 @@ async def message_handler(
         if re.search(pattern, text):
             await update.message.reply_text(response)
             return
-# ==========================================
-# ЗАПУСК
-# ==========================================
+
+
+class HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"Bot is running")
+
+    def log_message(self, format, *args):
+        pass
+
+
+def run_health_server():
+    port = int(os.environ.get("PORT", 10000))
+    server = HTTPServer(("0.0.0.0", port), HealthHandler)
+    server.serve_forever()
+
 
 def main():
+    health_thread = threading.Thread(
+        target=run_health_server,
+        daemon=True
+    )
+    health_thread.start()
+
     app = Application.builder().token(TOKEN).build()
 
     app.add_handler(
